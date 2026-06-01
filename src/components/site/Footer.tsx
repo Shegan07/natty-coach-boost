@@ -1,4 +1,5 @@
 import { Instagram, Youtube, MessageCircle, Mail, Phone, MapPin } from "lucide-react";
+import { WHATSAPP_LINK, PHONE_DISPLAY, EMAIL } from "@/lib/site.config";
 
 export function Footer() {
   return (
@@ -29,8 +30,8 @@ export function Footer() {
         <div>
           <h3 className="font-display text-sm tracking-widest mb-4">CONTACT</h3>
           <ul className="space-y-3 text-sm text-muted-foreground">
-            <li className="flex items-center gap-2"><Phone className="h-4 w-4 text-silver" /> +91 12345 67890</li>
-            <li className="flex items-center gap-2"><Mail className="h-4 w-4 text-silver" /> coachbarath@gmail.com</li>
+            <li className="flex items-center gap-2"><Phone className="h-4 w-4 text-silver" /> {PHONE_DISPLAY}</li>
+            <li className="flex items-center gap-2"><Mail className="h-4 w-4 text-silver" /> {EMAIL}</li>
             <li className="flex items-center gap-2"><MapPin className="h-4 w-4 text-silver" /> Chennai, Tamil Nadu</li>
           </ul>
         </div>
@@ -38,11 +39,15 @@ export function Footer() {
         <div>
           <h3 className="font-display text-sm tracking-widest mb-4">FOLLOW ME</h3>
           <div className="flex gap-3">
-            {[Instagram, Youtube, MessageCircle].map((Icon, i) => (
-              <a key={i} href="#" aria-label="Social link" className="h-10 w-10 rounded-md border border-border hover:border-silver/40 hover:bg-secondary flex items-center justify-center transition-colors">
-                <Icon className="h-4 w-4 text-silver" />
-              </a>
-            ))}
+            <a href="#" aria-label="Instagram" className="h-10 w-10 rounded-md border border-border hover:border-silver/40 hover:bg-secondary flex items-center justify-center transition-colors">
+              <Instagram className="h-4 w-4 text-silver" />
+            </a>
+            <a href="#" aria-label="YouTube" className="h-10 w-10 rounded-md border border-border hover:border-silver/40 hover:bg-secondary flex items-center justify-center transition-colors">
+              <Youtube className="h-4 w-4 text-silver" />
+            </a>
+            <a href={WHATSAPP_LINK} aria-label="WhatsApp" className="h-10 w-10 rounded-md border border-border hover:border-silver/40 hover:bg-secondary flex items-center justify-center transition-colors">
+              <MessageCircle className="h-4 w-4 text-silver" />
+            </a>
           </div>
           <p className="mt-4 text-sm text-muted-foreground">Let's connect and grow together.</p>
         </div>
