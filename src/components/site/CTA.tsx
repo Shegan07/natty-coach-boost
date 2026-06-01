@@ -1,4 +1,5 @@
 import { Calendar, MessageCircle } from "lucide-react";
+import { WHATSAPP_LINK } from "@/lib/site.config";
 
 export function CTA() {
   return (
@@ -11,7 +12,7 @@ export function CTA() {
             <a href="#book" className="inline-flex items-center gap-2 px-6 py-3 rounded-md bg-primary text-primary-foreground font-medium hover:bg-silver transition-colors">
               <Calendar className="h-4 w-4" /> Book Free Consultation
             </a>
-            <a href="https://wa.me/911234567890" className="inline-flex items-center gap-2 px-6 py-3 rounded-md border border-silver/40 font-medium hover:bg-secondary transition-colors">
+            <a href={WHATSAPP_LINK} className="inline-flex items-center gap-2 px-6 py-3 rounded-md border border-silver/40 font-medium hover:bg-secondary transition-colors">
               <MessageCircle className="h-4 w-4" /> WhatsApp Me
             </a>
           </div>
