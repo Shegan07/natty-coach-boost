@@ -116,19 +116,19 @@ function TrainerFilesPage() {
         { to: "/trainer/files", label: "Files", icon: FileText },
       ]}
     >
-      <div className="grid gap-6 lg:grid-cols-[360px_1fr]">
-        <Card>
-          <CardHeader>
-            <CardTitle>Upload file</CardTitle>
-            <CardDescription>Store PDFs and images for a specific client.</CardDescription>
+      <div className="grid gap-4 sm:gap-6 lg:grid-cols-[320px_1fr]">
+        <Card className="border-border/50">
+          <CardHeader className="pb-3 sm:pb-4">
+            <CardTitle className="text-lg sm:text-xl">Upload file</CardTitle>
+            <CardDescription className="text-xs sm:text-sm">PDFs and images for clients</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <Label>Client</Label>
+          <CardContent className="space-y-3 sm:space-y-4">
+            <div className="space-y-1 sm:space-y-2">
+              <Label className="text-xs sm:text-sm">Client</Label>
               <select
                 value={selectedClientId}
                 onChange={(event) => setSelectedClientId(event.target.value)}
-                className="flex h-10 w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm"
+                className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1.5 text-xs sm:text-sm"
               >
                 <option value="">Select client</option>
                 {clients.map((client) => (
@@ -138,44 +138,46 @@ function TrainerFilesPage() {
                 ))}
               </select>
             </div>
-            <div className="space-y-2">
-              <Label>File</Label>
+            <div className="space-y-1 sm:space-y-2">
+              <Label className="text-xs sm:text-sm">File</Label>
               <Input
                 type="file"
                 accept=".pdf,image/*"
                 onChange={(event) => setSelectedFile(event.target.files?.[0] ?? null)}
+                className="h-8 text-xs"
               />
             </div>
             <Button
               type="button"
               onClick={handleUpload}
               disabled={saving || !selectedClientId || !selectedFile}
+              className="w-full text-xs sm:text-sm"
             >
-              <FileUp className="h-4 w-4" />
-              Upload file
+              <FileUp className="h-3 w-3 sm:h-4 sm:w-4" />
+              Upload
             </Button>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Shared files</CardTitle>
-            <CardDescription>Files uploaded for your clients.</CardDescription>
+        <Card className="border-border/50">
+          <CardHeader className="pb-3 sm:pb-4">
+            <CardTitle className="text-lg sm:text-xl">Shared files</CardTitle>
+            <CardDescription className="text-xs sm:text-sm">Uploaded for your clients</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-3">
+          <CardContent className="space-y-2 sm:space-y-3">
             {files.length ? (
               files.map((file) => (
                 <div
                   key={file.id}
-                  className="flex flex-col gap-3 rounded-md border border-border bg-background/60 p-4 md:flex-row md:items-center md:justify-between"
+                  className="flex flex-col gap-2 sm:gap-3 rounded-md border border-border/50 bg-background/40 p-3 sm:p-4 md:flex-row md:items-center md:justify-between"
                 >
-                  <div>
-                    <div className="font-medium text-foreground">{file.file_name}</div>
-                    <div className="text-sm text-muted-foreground">
+                  <div className="min-w-0">
+                    <div className="font-medium text-foreground text-sm sm:text-base">{file.file_name}</div>
+                    <div className="text-xs sm:text-sm text-muted-foreground">
                       {file.client?.name ?? "Unknown client"} | {file.mime_type ?? "File"}
                     </div>
                   </div>
-                  <div className="flex gap-2">
+                  <div className="flex gap-2 flex-shrink-0">
                     <SignedOpenButton file={file} />
                     <Button
                       type="button"

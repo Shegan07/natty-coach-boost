@@ -151,102 +151,108 @@ function ClientDashboard() {
         { to: "/client/files", label: "Files", icon: FileText },
       ]}
     >
-      <div className="flex flex-col gap-6">
-        <header className="flex flex-col gap-4 rounded-xl border border-border bg-card/80 p-5 shadow-sm md:flex-row md:items-end md:justify-between">
-          <div className="space-y-2">
-            <p className="text-xs tracking-[0.3em] text-silver-muted">CLIENT OVERVIEW</p>
-            <h1 className="font-display text-4xl sm:text-5xl text-silver-gradient leading-[0.95]">
-              Your private dashboard
+      <div className="flex flex-col gap-4 sm:gap-6">
+        <header className="flex flex-col gap-3 rounded-lg border border-border/50 bg-card/50 p-4 shadow-sm sm:rounded-xl sm:p-5 md:flex-row md:items-center md:justify-between">
+          <div className="space-y-1 sm:space-y-2">
+            <p className="text-xs tracking-[0.3em] text-silver-muted">CLIENT</p>
+            <h1 className="font-display text-2xl sm:text-3xl md:text-4xl text-silver-gradient leading-tight">
+              Dashboard
             </h1>
-            <p className="text-sm text-muted-foreground">
-              View plans, track progress, and keep your shared files in one place.
+            <p className="text-xs sm:text-sm text-muted-foreground">
+              View plans, track progress, and files
             </p>
           </div>
-          <Button type="button" variant="outline" onClick={handleSignOut} disabled={signingOut}>
+          <Button 
+            type="button" 
+            variant="outline" 
+            onClick={handleSignOut} 
+            disabled={signingOut}
+            className="w-full sm:w-auto"
+          >
             <LogOut className="h-4 w-4" />
             {signingOut ? "Signing out..." : "Sign out"}
           </Button>
         </header>
 
-        <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+        <section className="grid gap-2 sm:gap-4 grid-cols-2 md:grid-cols-4">
           <MetricCard
-            label="Current Workout Plan"
+            label="Workouts"
             value={summary?.workoutPlans ?? 0}
             icon={Dumbbell}
           />
-          <MetricCard label="Current Diet Plan" value={summary?.dietPlans ?? 0} icon={Salad} />
+          <MetricCard label="Diets" value={summary?.dietPlans ?? 0} icon={Salad} />
           <MetricCard
-            label="Latest Progress"
+            label="Progress"
             value={summary?.latestProgress?.weight ? 1 : 0}
             icon={LineChart}
-            helper={summary?.latestProgress?.log_date ?? "No logs yet"}
           />
-          <MetricCard label="Uploaded Files" value={summary?.files ?? 0} icon={FileText} />
+          <MetricCard label="Files" value={summary?.files ?? 0} icon={FileText} />
         </section>
 
         <section className="grid gap-4 lg:grid-cols-2">
-          <Card>
-            <CardHeader>
-              <CardTitle>Current Workout Plan</CardTitle>
-              <CardDescription>Your active training assignments.</CardDescription>
+          <Card className="border-border/50">
+            <CardHeader className="pb-3 sm:pb-4">
+              <CardTitle className="text-lg sm:text-xl">Workout Plan</CardTitle>
+              <CardDescription className="text-xs sm:text-sm">Your training assignments</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-3">
+            <CardContent className="space-y-2 sm:space-y-3">
               {workoutPlans.length ? (
                 workoutPlans.map((plan) => (
                   <div
                     key={plan.id}
-                    className="rounded-md border border-border bg-background/60 px-4 py-3 text-sm"
+                    className="rounded-md border border-border/50 bg-background/40 px-3 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm"
                   >
-                    <div className="font-medium text-foreground">{plan.title}</div>
-                    <div className="mt-1 text-muted-foreground">{plan.schedule}</div>
+                    <div className="font-medium text-foreground text-sm sm:text-base">{plan.title}</div>
+                    <div className="mt-1 text-muted-foreground text-xs">{plan.schedule}</div>
                   </div>
                 ))
               ) : (
-                <EmptyState text="No workout plan assigned yet." />
+                <EmptyState text="No workout plan yet." />
               )}
             </CardContent>
           </Card>
 
-          <Card>
-            <CardHeader>
-              <CardTitle>Current Diet Plan</CardTitle>
-              <CardDescription>Your current nutrition assignments.</CardDescription>
+          <Card className="border-border/50">
+            <CardHeader className="pb-3 sm:pb-4">
+              <CardTitle className="text-lg sm:text-xl">Diet Plan</CardTitle>
+              <CardDescription className="text-xs sm:text-sm">Your nutrition plan</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-3">
+            <CardContent className="space-y-2 sm:space-y-3">
               {dietPlans.length ? (
                 dietPlans.map((plan) => (
                   <div
                     key={plan.id}
-                    className="rounded-md border border-border bg-background/60 px-4 py-3 text-sm"
+                    className="rounded-md border border-border/50 bg-background/40 px-3 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm"
                   >
-                    <div className="font-medium text-foreground">{plan.title}</div>
-                    <div className="mt-1 text-muted-foreground">{plan.schedule}</div>
+                    <div className="font-medium text-foreground text-sm sm:text-base">{plan.title}</div>
+                    <div className="mt-1 text-muted-foreground text-xs">{plan.schedule}</div>
                   </div>
                 ))
               ) : (
-                <EmptyState text="No diet plan assigned yet." />
+                <EmptyState text="No diet plan yet." />
               )}
             </CardContent>
           </Card>
         </section>
 
         <section className="grid gap-4 lg:grid-cols-2">
-          <Card>
-            <CardHeader>
-              <CardTitle>Latest Progress</CardTitle>
-              <CardDescription>Your recent body and scale updates.</CardDescription>
+          <Card className="border-border/50">
+            <CardHeader className="pb-3 sm:pb-4">
+              <CardTitle className="text-lg sm:text-xl">Progress</CardTitle>
+              <CardDescription className="text-xs sm:text-sm">Recent updates</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-3">
+            <CardContent className="space-y-2 sm:space-y-3">
               {progressLogs.length ? (
                 progressLogs.slice(0, 4).map((log) => (
                   <div
                     key={log.id}
-                    className="rounded-md border border-border bg-background/60 px-4 py-3 text-sm text-muted-foreground"
+                    className="rounded-md border border-border/50 bg-background/40 px-3 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm text-muted-foreground"
                   >
-                    <div className="font-medium text-foreground">{log.log_date}</div>
-                    <div className="mt-1">
-                      Weight {log.weight ?? "-"} | Body fat {log.body_fat ?? "-"} | Waist{" "}
-                      {log.waist ?? "-"}
+                    <div className="font-medium text-foreground text-sm sm:text-base">{log.log_date}</div>
+                    <div className="mt-1 text-xs">
+                      {log.weight && `${log.weight}lbs`}
+                      {log.body_fat && ` | ${log.body_fat}%`}
+                      {log.waist && ` | ${log.waist}"`}
                     </div>
                   </div>
                 ))
@@ -256,27 +262,27 @@ function ClientDashboard() {
             </CardContent>
           </Card>
 
-          <Card>
-            <CardHeader>
-              <CardTitle>Uploaded Files</CardTitle>
-              <CardDescription>Files shared by your trainer.</CardDescription>
+          <Card className="border-border/50">
+            <CardHeader className="pb-3 sm:pb-4">
+              <CardTitle className="text-lg sm:text-xl">Files</CardTitle>
+              <CardDescription className="text-xs sm:text-sm">Shared by trainer</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-3">
+            <CardContent className="space-y-2 sm:space-y-3">
               {files.length ? (
                 files.map((file) => (
                   <div
                     key={file.id}
-                    className="flex items-center justify-between gap-3 rounded-md border border-border bg-background/60 px-4 py-3 text-sm"
+                    className="flex items-center justify-between gap-2 sm:gap-3 rounded-md border border-border/50 bg-background/40 px-3 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm"
                   >
                     <div className="min-w-0">
-                      <div className="truncate font-medium text-foreground">{file.file_name}</div>
-                      <div className="text-muted-foreground">{file.mime_type ?? "File"}</div>
+                      <div className="truncate font-medium text-foreground text-xs sm:text-sm">{file.file_name}</div>
+                      <div className="text-muted-foreground text-xs">{file.mime_type ?? "File"}</div>
                     </div>
                     <DownloadFileButton file={file} />
                   </div>
                 ))
               ) : (
-                <EmptyState text="No files shared yet." />
+                <EmptyState text="No files yet." />
               )}
             </CardContent>
           </Card>
@@ -298,16 +304,16 @@ function MetricCard({
   icon: ComponentType<{ className?: string }>;
 }) {
   return (
-    <Card>
-      <CardHeader className="space-y-3">
-        <div className="flex h-10 w-10 items-center justify-center rounded-md border border-silver/30 bg-secondary">
-          <Icon className="h-5 w-5 text-silver" />
+    <Card className="border-border/50 bg-card/40">
+      <CardHeader className="space-y-2 pb-2 sm:space-y-3 sm:pb-3">
+        <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-silver/30 bg-secondary/50">
+          <Icon className="h-4 w-4 sm:h-5 sm:w-5 text-silver" />
         </div>
-        <CardDescription>{label}</CardDescription>
+        <CardDescription className="text-xs sm:text-sm">{label}</CardDescription>
       </CardHeader>
-      <CardContent className="space-y-2">
-        <div className="font-display text-4xl text-silver-gradient">{value}</div>
-        {helper ? <div className="text-sm text-muted-foreground">{helper}</div> : null}
+      <CardContent className="space-y-1 pt-0 sm:space-y-2 sm:pt-1">
+        <div className="font-display text-2xl sm:text-3xl md:text-4xl text-silver-gradient">{value}</div>
+        {helper ? <div className="text-xs sm:text-sm text-muted-foreground">{helper}</div> : null}
       </CardContent>
     </Card>
   );

@@ -116,45 +116,46 @@ function ClientProgressPage() {
         { to: "/client/files", label: "Files", icon: LineChartIcon },
       ]}
     >
-      <div className="grid gap-6 lg:grid-cols-[360px_1fr]">
-        <Card>
-          <CardHeader>
-            <CardTitle>Add progress log</CardTitle>
-            <CardDescription>Record your body metrics and keep your chart updated.</CardDescription>
+      <div className="grid gap-4 sm:gap-6 lg:grid-cols-[320px_1fr]">
+        <Card className="border-border/50">
+          <CardHeader className="pb-3 sm:pb-4">
+            <CardTitle className="text-lg sm:text-xl">Add log</CardTitle>
+            <CardDescription className="text-xs sm:text-sm">Track your metrics</CardDescription>
           </CardHeader>
           <CardContent>
             {!clientRecord ? (
               <State text="Your account is signed in, but no linked client record exists yet." />
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-3">
+              <form onSubmit={handleSubmit} className="space-y-2 sm:space-y-3">
                 {(["log_date", "weight", "body_fat", "chest", "waist", "hip"] as const).map(
                   (field) => (
-                    <div key={field} className="space-y-2">
-                      <Label>{field.replace("_", " ").toUpperCase()}</Label>
+                    <div key={field} className="space-y-1">
+                      <Label className="text-xs sm:text-sm">{field.replace("_", " ").toUpperCase()}</Label>
                       <Input
                         name={field}
                         type={field === "log_date" ? "date" : "number"}
                         step="0.1"
+                        className="h-8 text-xs sm:text-sm"
                       />
                     </div>
                   ),
                 )}
-                <Button type="submit" disabled={saving}>
-                  Save progress log
+                <Button type="submit" disabled={saving} className="w-full text-xs sm:text-sm">
+                  Save log
                 </Button>
               </form>
             )}
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Progress chart</CardTitle>
-            <CardDescription>Your logged progress over time.</CardDescription>
+        <Card className="border-border/50">
+          <CardHeader className="pb-3 sm:pb-4">
+            <CardTitle className="text-lg sm:text-xl">Progress chart</CardTitle>
+            <CardDescription className="text-xs sm:text-sm">Your progress over time</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-3 sm:space-y-4">
             {logs.length ? (
-              <div className="h-72 w-full rounded-md border border-border bg-background/60 p-3">
+              <div className="h-64 sm:h-72 w-full rounded-md border border-border/50 bg-background/40 p-2 sm:p-3">
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={logs.slice().reverse()}>
                     <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" />
@@ -180,16 +181,15 @@ function ClientProgressPage() {
               <State text="No progress logs yet." />
             )}
 
-            <div className="space-y-3">
+            <div className="space-y-2 sm:space-y-3">
               {logs.map((log) => (
                 <div
                   key={log.id}
-                  className="rounded-md border border-border bg-background/60 px-4 py-3 text-sm text-muted-foreground"
+                  className="rounded-md border border-border/50 bg-background/40 px-3 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm text-muted-foreground"
                 >
-                  <div className="font-medium text-foreground">{log.log_date}</div>
-                  <div className="mt-1">
-                    Weight {log.weight ?? "-"} | Body fat {log.body_fat ?? "-"} | Chest{" "}
-                    {log.chest ?? "-"} | Waist {log.waist ?? "-"} | Hip {log.hip ?? "-"}
+                  <div className="font-medium text-foreground text-sm sm:text-base">{log.log_date}</div>
+                  <div className="mt-1 text-xs sm:text-sm">
+                    Weight {log.weight ?? "-"} | Body fat {log.body_fat ?? "-"} | Chest {log.chest ?? "-"} | Waist {log.waist ?? "-"} | Hip {log.hip ?? "-"}
                   </div>
                 </div>
               ))}

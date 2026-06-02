@@ -173,20 +173,20 @@ function TrainerDietsPage() {
         { to: "/trainer/files", label: "Files", icon: Salad },
       ]}
     >
-      <div className="grid gap-6 lg:grid-cols-[1fr_420px]">
-        <Card>
-          <CardHeader>
-            <CardTitle>Diet plans</CardTitle>
-            <CardDescription>Plans assigned to your own clients.</CardDescription>
+      <div className="grid gap-4 sm:gap-6 lg:grid-cols-[1fr_360px]">
+        <Card className="border-border/50">
+          <CardHeader className="pb-3 sm:pb-4">
+            <CardTitle className="text-lg sm:text-xl">Diet plans</CardTitle>
+            <CardDescription className="text-xs sm:text-sm">Plans assigned to your clients</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-3">
+          <CardContent className="space-y-2 sm:space-y-3">
             {plans.length ? (
               plans.map((plan) => (
-                <div key={plan.id} className="rounded-md border border-border bg-background/60 p-4">
-                  <div className="flex items-start justify-between gap-3">
-                    <div>
-                      <div className="font-medium text-foreground">{plan.title}</div>
-                      <div className="text-sm text-muted-foreground">
+                <div key={plan.id} className="rounded-md border border-border/50 bg-background/40 p-3 sm:p-4">
+                  <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+                    <div className="min-w-0">
+                      <div className="font-medium text-foreground text-sm sm:text-base">{plan.title}</div>
+                      <div className="text-xs sm:text-sm text-muted-foreground">
                         {plan.client?.name ?? "Unknown client"} - {plan.schedule}
                       </div>
                     </div>
@@ -196,29 +196,28 @@ function TrainerDietsPage() {
                         variant="outline"
                         size="sm"
                         onClick={() => startEdit(plan)}
+                        className="h-8 px-2 text-xs"
                       >
-                        <Edit2 className="h-4 w-4" />
-                        Edit
+                        <Edit2 className="h-3 w-3" />
                       </Button>
                       <Button
                         type="button"
                         variant="outline"
                         size="sm"
                         onClick={() => handleDelete(plan.id)}
+                        className="h-8 px-2 text-xs"
                       >
-                        <Trash2 className="h-4 w-4" />
-                        Delete
+                        <Trash2 className="h-3 w-3" />
                       </Button>
                     </div>
                   </div>
-                  <div className="mt-3 space-y-2">
+                  <div className="mt-2 space-y-1">
                     {plan.meals.map((meal, index) => (
                       <div
                         key={`${plan.id}-${index}`}
-                        className="rounded-md border border-border bg-background/60 px-3 py-2 text-sm text-muted-foreground"
+                        className="rounded-sm border border-border/50 bg-background/60 px-2 sm:px-3 py-1.5 sm:py-2 text-xs sm:text-sm text-muted-foreground"
                       >
-                        {meal.meal || "Meal"} | {meal.calories || "-"} cal | P {meal.protein || "-"}{" "}
-                        | C {meal.carbs || "-"} | F {meal.fats || "-"}
+                        {meal.meal || "Meal"} | {meal.calories || "-"} cal | P {meal.protein || "-"} | C {meal.carbs || "-"} | F {meal.fats || "-"}
                       </div>
                     ))}
                   </div>
@@ -230,13 +229,13 @@ function TrainerDietsPage() {
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>{selectedPlan ? "Edit diet plan" : "Create diet plan"}</CardTitle>
-            <CardDescription>Add meals, calories, protein, carbs, and fats.</CardDescription>
+        <Card className="border-border/50">
+          <CardHeader className="pb-3 sm:pb-4">
+            <CardTitle className="text-lg sm:text-xl">{selectedPlan ? "Edit plan" : "New plan"}</CardTitle>
+            <CardDescription className="text-xs sm:text-sm">Add meals and macros</CardDescription>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
               <Field label="Client">
                 <select
                   value={form.clientId}

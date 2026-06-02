@@ -174,41 +174,41 @@ function TrainerClientsPage() {
         { to: "/trainer/files", label: "Files", icon: Users },
       ]}
     >
-      <div className="grid gap-6 lg:grid-cols-[1fr_380px]">
-        <Card>
-          <CardHeader>
-            <CardTitle>Own clients</CardTitle>
-            <CardDescription>
-              View, update, and remove the clients linked to your account.
+      <div className="grid gap-4 sm:gap-6 lg:grid-cols-[1fr_340px]">
+        <Card className="border-border/50">
+          <CardHeader className="pb-3 sm:pb-4">
+            <CardTitle className="text-lg sm:text-xl">Clients</CardTitle>
+            <CardDescription className="text-xs sm:text-sm">
+              View, update, and manage your clients
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-3">
+          <CardContent className="space-y-2 sm:space-y-3">
             {clients.length ? (
               clients.map((client) => (
                 <div
                   key={client.id}
-                  className="rounded-md border border-border bg-background/60 p-4"
+                  className="rounded-md border border-border/50 bg-background/40 p-3 sm:p-4"
                 >
-                  <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+                  <div className="flex flex-col gap-2 sm:gap-3 md:flex-row md:items-start md:justify-between">
                     <div className="space-y-1">
-                      <div className="font-medium text-foreground">{client.name}</div>
-                      <div className="text-sm text-muted-foreground">{client.email}</div>
+                      <div className="font-medium text-foreground text-sm sm:text-base">{client.name}</div>
+                      <div className="text-xs sm:text-sm text-muted-foreground">{client.email}</div>
                       <div className="text-xs uppercase tracking-widest text-silver-muted">
                         {client.status}
                       </div>
-                      <div className="mt-2 text-sm text-muted-foreground">
+                      <div className="mt-1 text-xs sm:text-sm text-muted-foreground">
                         {client.goals || "No goals yet."}
                       </div>
                     </div>
-                    <div className="flex gap-2">
+                    <div className="flex gap-1 sm:gap-2">
                       <Button
                         type="button"
                         variant="outline"
                         size="sm"
                         onClick={() => startEdit(client)}
+                        className="h-8 px-2 text-xs"
                       >
-                        <Edit2 className="h-4 w-4" />
-                        Edit
+                        <Edit2 className="h-3 w-3" />
                       </Button>
                       <Button
                         type="button"
@@ -216,14 +216,14 @@ function TrainerClientsPage() {
                         size="sm"
                         onClick={() => handleDelete(client.id)}
                         disabled={saving}
+                        className="h-8 px-2 text-xs"
                       >
-                        <Trash2 className="h-4 w-4" />
-                        Delete
+                        <Trash2 className="h-3 w-3" />
                       </Button>
                     </div>
                   </div>
 
-                  <div className="mt-4 grid gap-2 text-xs text-muted-foreground sm:grid-cols-2 lg:grid-cols-5">
+                  <div className="mt-2 sm:mt-3 grid gap-1 sm:gap-2 text-xs text-muted-foreground grid-cols-2 sm:grid-cols-5">
                     <StatChip label="Weight" value={client.body_stats?.weight ?? "-"} />
                     <StatChip label="Body Fat" value={client.body_stats?.body_fat ?? "-"} />
                     <StatChip label="Chest" value={client.body_stats?.chest ?? "-"} />
@@ -238,10 +238,10 @@ function TrainerClientsPage() {
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>{selectedClient ? "Edit client" : "Add client"}</CardTitle>
-            <CardDescription>Store client details and body stats.</CardDescription>
+        <Card className="border-border/50">
+          <CardHeader className="pb-3 sm:pb-4">
+            <CardTitle className="text-lg sm:text-xl">{selectedClient ? "Edit" : "Add"}</CardTitle>
+            <CardDescription className="text-xs sm:text-sm">Client details and stats</CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">

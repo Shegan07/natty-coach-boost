@@ -70,32 +70,34 @@ function ClientFilesPage() {
         { to: "/client/files", label: "Files", icon: FileText },
       ]}
     >
-      <Card>
-        <CardHeader>
-          <CardTitle>My files</CardTitle>
-          <CardDescription>Files shared by your trainer.</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-3">
-          {!clientRecord ? (
-            <State text="Your account is signed in, but no linked client record exists yet." />
-          ) : files.length ? (
-            files.map((file) => (
-              <div
-                key={file.id}
-                className="flex flex-col gap-3 rounded-md border border-border bg-background/60 p-4 md:flex-row md:items-center md:justify-between"
-              >
-                <div>
-                  <div className="font-medium text-foreground">{file.file_name}</div>
-                  <div className="text-sm text-muted-foreground">{file.mime_type ?? "File"}</div>
+      <div className="flex flex-col gap-4 sm:gap-6">
+        <Card className="border-border/50">
+          <CardHeader className="pb-3 sm:pb-4">
+            <CardTitle className="text-lg sm:text-xl">My files</CardTitle>
+            <CardDescription className="text-xs sm:text-sm">Shared by your trainer</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-2 sm:space-y-3">
+            {!clientRecord ? (
+              <State text="Your account is signed in, but no linked client record exists yet." />
+            ) : files.length ? (
+              files.map((file) => (
+                <div
+                  key={file.id}
+                  className="flex flex-col gap-2 sm:gap-3 rounded-md border border-border/50 bg-background/40 p-3 sm:p-4 md:flex-row md:items-center md:justify-between"
+                >
+                  <div className="min-w-0">
+                    <div className="font-medium text-foreground text-sm sm:text-base">{file.file_name}</div>
+                    <div className="text-xs sm:text-sm text-muted-foreground">{file.mime_type ?? "File"}</div>
+                  </div>
+                  <SignedOpenButton file={file} />
                 </div>
-                <SignedOpenButton file={file} />
-              </div>
-            ))
-          ) : (
-            <State text="No files shared yet." />
-          )}
-        </CardContent>
-      </Card>
+              ))
+            ) : (
+              <State text="No files shared yet." />
+            )}
+          </CardContent>
+        </Card>
+      </div>
     </DashboardLayout>
   );
 }
@@ -118,12 +120,12 @@ function SignedOpenButton({ file }: { file: FileRecord }) {
       href={href}
       target="_blank"
       rel="noreferrer"
-      className="inline-flex items-center rounded-md border border-silver/40 px-3 py-2 text-sm font-medium hover:bg-secondary transition-colors"
+      className="inline-flex items-center rounded-md border border-silver/40 px-2 sm:px-3 py-1.5 sm:py-2 text-xs sm:text-sm font-medium hover:bg-secondary transition-colors flex-shrink-0"
     >
       Open
     </a>
   ) : (
-    <Button type="button" variant="outline" size="sm" onClick={loadLink} disabled={loading}>
+    <Button type="button" variant="outline" size="sm" onClick={loadLink} disabled={loading} className="h-8 px-2 text-xs flex-shrink-0">
       Open
     </Button>
   );

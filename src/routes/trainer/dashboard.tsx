@@ -98,61 +98,68 @@ function TrainerDashboard() {
         { to: "/trainer/files", label: "Files", icon: FileChartColumn },
       ]}
     >
-      <div className="flex flex-col gap-6">
-        <header className="flex flex-col gap-4 rounded-xl border border-border bg-card/80 p-5 shadow-sm md:flex-row md:items-end md:justify-between">
-          <div className="space-y-2">
-            <p className="text-xs tracking-[0.3em] text-silver-muted">TRAINER OVERVIEW</p>
-            <h1 className="font-display text-4xl sm:text-5xl text-silver-gradient leading-[0.95]">
-              Practice dashboard
+      <div className="flex flex-col gap-4 sm:gap-6">
+        <header className="flex flex-col gap-3 rounded-lg border border-border/50 bg-card/50 p-4 shadow-sm sm:rounded-xl sm:p-5 md:flex-row md:items-center md:justify-between">
+          <div className="space-y-1 sm:space-y-2">
+            <p className="text-xs tracking-[0.3em] text-silver-muted">TRAINER</p>
+            <h1 className="font-display text-2xl sm:text-3xl md:text-4xl text-silver-gradient leading-tight">
+              Dashboard
             </h1>
-            <p className="text-sm text-muted-foreground">
-              Track clients, plans, and progress from one place.
+            <p className="text-xs sm:text-sm text-muted-foreground">
+              Track clients, plans, and progress
             </p>
           </div>
-          <Button type="button" variant="outline" onClick={handleSignOut} disabled={signingOut}>
+          <Button 
+            type="button" 
+            variant="outline" 
+            onClick={handleSignOut} 
+            disabled={signingOut}
+            className="w-full sm:w-auto"
+          >
             <LogOut className="h-4 w-4" />
             {signingOut ? "Signing out..." : "Sign out"}
           </Button>
         </header>
 
-        <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          <MetricCard label="Total Clients" value={summary?.totalClients ?? 0} icon={Users} />
+        <section className="grid gap-2 sm:gap-4 grid-cols-2 md:grid-cols-4">
+          <MetricCard label="Clients" value={summary?.totalClients ?? 0} icon={Users} />
           <MetricCard
-            label="Active Workout Plans"
+            label="Workouts"
             value={summary?.activeWorkoutPlans ?? 0}
             icon={FileChartColumn}
           />
           <MetricCard
-            label="Active Diet Plans"
+            label="Diets"
             value={summary?.activeDietPlans ?? 0}
             icon={FileChartColumn}
           />
           <MetricCard
-            label="Recent Progress Logs"
+            label="Logs"
             value={summary?.recentProgressLogs ?? 0}
             icon={Zap}
           />
         </section>
 
         <section className="grid gap-4 lg:grid-cols-2">
-          <Card>
-            <CardHeader>
-              <CardTitle>Recent Progress Logs</CardTitle>
-              <CardDescription>Latest entries from your client base.</CardDescription>
+          <Card className="border-border/50">
+            <CardHeader className="pb-3 sm:pb-4">
+              <CardTitle className="text-lg sm:text-xl">Recent Logs</CardTitle>
+              <CardDescription className="text-xs sm:text-sm">Latest from clients</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-3">
+            <CardContent className="space-y-2 sm:space-y-3">
               {recentLogs.length ? (
                 recentLogs.map((log) => (
                   <div
                     key={log.id}
-                    className="rounded-md border border-border bg-background/60 px-4 py-3 text-sm text-muted-foreground"
+                    className="rounded-md border border-border/50 bg-background/40 px-3 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm text-muted-foreground"
                   >
-                    <div className="font-medium text-foreground">
-                      {log.client?.name ?? "Unknown client"} - {log.log_date}
+                    <div className="font-medium text-foreground text-sm sm:text-base">
+                      {log.client?.name ?? "Unknown"} - {log.log_date}
                     </div>
-                    <div className="mt-1">
-                      Weight {log.weight ?? "-"} | Body fat {log.body_fat ?? "-"} | Waist{" "}
-                      {log.waist ?? "-"}
+                    <div className="mt-1 text-xs">
+                      {log.weight && `${log.weight}lbs`}
+                      {log.body_fat && ` | ${log.body_fat}%`}
+                      {log.waist && ` | ${log.waist}"`}
                     </div>
                   </div>
                 ))
@@ -162,28 +169,27 @@ function TrainerDashboard() {
             </CardContent>
           </Card>
 
-          <Card>
-            <CardHeader>
-              <CardTitle>Quick Actions</CardTitle>
-              <CardDescription>Shortcuts to the backend-connected trainer tools.</CardDescription>
+          <Card className="border-border/50">
+            <CardHeader className="pb-3 sm:pb-4">
+              <CardTitle className="text-lg sm:text-xl">Quick Actions</CardTitle>
+              <CardDescription className="text-xs sm:text-sm">Fast access to tools</CardDescription>
             </CardHeader>
-            <CardContent className="grid gap-3 sm:grid-cols-2">
+            <CardContent className="grid gap-2 sm:gap-3 grid-cols-2">
               {[
-                { to: "/trainer/clients", label: "Manage clients" },
-                { to: "/trainer/workouts", label: "Build workouts" },
-                { to: "/trainer/diets", label: "Build diets" },
-                { to: "/trainer/files", label: "Upload files" },
+                { to: "/trainer/clients", label: "Clients" },
+                { to: "/trainer/workouts", label: "Workouts" },
+                { to: "/trainer/diets", label: "Diets" },
+                { to: "/trainer/files", label: "Files" },
               ].map((item) => (
                 <Button
                   key={item.to}
                   type="button"
                   variant="outline"
                   asChild
-                  className="justify-between"
+                  className="h-auto justify-center px-2 py-2 sm:py-3 text-xs sm:text-sm"
                 >
                   <Link to={item.to}>
                     {item.label}
-                    <ArrowRight className="h-4 w-4" />
                   </Link>
                 </Button>
               ))}
@@ -205,14 +211,16 @@ function MetricCard({
   icon: ComponentType<{ className?: string }>;
 }) {
   return (
-    <Card>
-      <CardHeader className="space-y-3">
-        <div className="flex h-10 w-10 items-center justify-center rounded-md border border-silver/30 bg-secondary">
-          <Icon className="h-5 w-5 text-silver" />
+    <Card className="border-border/50 bg-card/40">
+      <CardHeader className="space-y-2 pb-2 sm:space-y-3 sm:pb-3">
+        <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-silver/30 bg-secondary/50">
+          <Icon className="h-4 w-4 sm:h-5 sm:w-5 text-silver" />
         </div>
-        <CardDescription>{label}</CardDescription>
+        <CardDescription className="text-xs sm:text-sm">{label}</CardDescription>
       </CardHeader>
-      <CardContent className="font-display text-4xl text-silver-gradient">{value}</CardContent>
+      <CardContent className="space-y-1 pt-0 sm:space-y-2 sm:pt-1">
+        <div className="font-display text-2xl sm:text-3xl md:text-4xl text-silver-gradient">{value}</div>
+      </CardContent>
     </Card>
   );
 }

@@ -119,19 +119,19 @@ function TrainerProgressPage() {
         { to: "/trainer/files", label: "Files", icon: LineChartIcon },
       ]}
     >
-      <div className="grid gap-6 lg:grid-cols-[360px_1fr]">
-        <Card>
-          <CardHeader>
-            <CardTitle>Selected client</CardTitle>
-            <CardDescription>Pick a client to view their logs and chart.</CardDescription>
+      <div className="grid gap-4 sm:gap-6 lg:grid-cols-[320px_1fr]">
+        <Card className="border-border/50">
+          <CardHeader className="pb-3 sm:pb-4">
+            <CardTitle className="text-lg sm:text-xl">Client</CardTitle>
+            <CardDescription className="text-xs sm:text-sm">Select to view logs</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-3">
             <div className="space-y-2">
-              <Label>Client</Label>
+              <Label className="text-xs sm:text-sm">Client</Label>
               <select
                 value={selectedClientId}
                 onChange={(event) => setSelectedClientId(event.target.value)}
-                className="flex h-10 w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm"
+                className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1.5 text-xs sm:text-sm"
               >
                 <option value="">Select client</option>
                 {clients.map((client) => (
@@ -143,41 +143,42 @@ function TrainerProgressPage() {
             </div>
 
             {selectedClient ? (
-              <div className="rounded-md border border-border bg-background/60 px-4 py-3 text-sm text-muted-foreground">
-                <div className="font-medium text-foreground">{selectedClient.name}</div>
-                <div>{selectedClient.email}</div>
-                <div className="mt-1">{selectedClient.goals ?? "No goals yet."}</div>
+              <div className="rounded-md border border-border/50 bg-background/40 px-3 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm text-muted-foreground">
+                <div className="font-medium text-foreground text-sm sm:text-base">{selectedClient.name}</div>
+                <div className="text-xs">{selectedClient.email}</div>
+                <div className="mt-1 text-xs">{selectedClient.goals ?? "No goals yet."}</div>
               </div>
             ) : null}
 
-            <form onSubmit={handleSubmit} className="space-y-3">
+            <form onSubmit={handleSubmit} className="space-y-2 sm:space-y-3">
               {(["log_date", "weight", "body_fat", "chest", "waist", "hip"] as const).map(
                 (field) => (
-                  <div key={field} className="space-y-2">
-                    <Label>{field.replace("_", " ").toUpperCase()}</Label>
+                  <div key={field} className="space-y-1">
+                    <Label className="text-xs sm:text-sm">{field.replace("_", " ").toUpperCase()}</Label>
                     <Input
                       name={field}
                       type={field === "log_date" ? "date" : "number"}
                       step="0.1"
+                      className="h-8 text-xs sm:text-sm"
                     />
                   </div>
                 ),
               )}
-              <Button type="submit" disabled={saving || !selectedClientId}>
-                Save progress log
+              <Button type="submit" disabled={saving || !selectedClientId} className="w-full text-xs sm:text-sm">
+                Save log
               </Button>
             </form>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Progress chart</CardTitle>
-            <CardDescription>Latest values for the selected client.</CardDescription>
+        <Card className="border-border/50">
+          <CardHeader className="pb-3 sm:pb-4">
+            <CardTitle className="text-lg sm:text-xl">Progress chart</CardTitle>
+            <CardDescription className="text-xs sm:text-sm">Latest values</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-3 sm:space-y-4">
             {selectedLogs.length ? (
-              <div className="h-72 w-full rounded-md border border-border bg-background/60 p-3">
+              <div className="h-64 sm:h-72 w-full rounded-md border border-border/50 bg-background/40 p-2 sm:p-3">
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={selectedLogs.slice().reverse()}>
                     <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" />
@@ -200,20 +201,19 @@ function TrainerProgressPage() {
                 </ResponsiveContainer>
               </div>
             ) : (
-              <State text="No progress logs for the selected client yet." />
+              <State text="No progress logs yet." />
             )}
 
-            <div className="space-y-3">
+            <div className="space-y-2 sm:space-y-3">
               {selectedLogs.length
                 ? selectedLogs.map((log) => (
                     <div
                       key={log.id}
-                      className="rounded-md border border-border bg-background/60 px-4 py-3 text-sm text-muted-foreground"
+                      className="rounded-md border border-border/50 bg-background/40 px-3 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm text-muted-foreground"
                     >
-                      <div className="font-medium text-foreground">{log.log_date}</div>
-                      <div className="mt-1">
-                        Weight {log.weight ?? "-"} | Body fat {log.body_fat ?? "-"} | Chest{" "}
-                        {log.chest ?? "-"} | Waist {log.waist ?? "-"} | Hip {log.hip ?? "-"}
+                      <div className="font-medium text-foreground text-sm sm:text-base">{log.log_date}</div>
+                      <div className="mt-1 text-xs sm:text-sm">
+                        Weight {log.weight ?? "-"} | Body fat {log.body_fat ?? "-"} | Chest {log.chest ?? "-"} | Waist {log.waist ?? "-"} | Hip {log.hip ?? "-"}
                       </div>
                     </div>
                   ))

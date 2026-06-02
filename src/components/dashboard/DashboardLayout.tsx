@@ -31,14 +31,15 @@ export function DashboardLayout({
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <div className="mx-auto grid min-h-screen w-full max-w-7xl gap-6 px-4 py-4 sm:px-6 lg:grid-cols-[240px_minmax(0,1fr)] lg:px-8">
-        <aside className="rounded-xl border border-border bg-card/80 p-4 shadow-sm lg:sticky lg:top-4 lg:h-[calc(100vh-2rem)]">
+      {/* Desktop Sidebar */}
+      <div className="hidden lg:block fixed left-0 top-0 h-full w-64 border-r border-border bg-card/80">
+        <div className="sticky top-4 h-[calc(100vh-2rem)] overflow-y-auto rounded-xl border border-border bg-card/80 p-4 shadow-sm m-4">
           <div className="border-b border-border pb-4">
             <div className="text-xs tracking-[0.3em] text-silver-muted">{roleLabel}</div>
-            <div className="mt-2 font-display text-2xl text-silver-gradient leading-none">
+            <div className="mt-2 font-display text-xl text-silver-gradient leading-none">
               {title}
             </div>
-            {subtitle ? <div className="mt-2 text-sm text-muted-foreground">{subtitle}</div> : null}
+            {subtitle ? <div className="mt-1 text-xs text-muted-foreground">{subtitle}</div> : null}
           </div>
 
           <nav className="mt-4 grid gap-2">
@@ -58,15 +59,44 @@ export function DashboardLayout({
                   )}
                 >
                   <Icon className="h-4 w-4 text-silver" />
-                  {link.label}
+                  <span className="truncate">{link.label}</span>
                 </Link>
               );
             })}
           </nav>
-        </aside>
-
-        <main className="min-w-0">{children}</main>
+        </div>
       </div>
+
+      {/* Main Content */}
+      <main className="w-full lg:ml-64 mb-20 lg:mb-0">
+        <div className="mx-auto max-w-7xl px-3 py-3 sm:px-4 sm:py-4 md:px-6 md:py-6">
+          {children}
+        </div>
+      </main>
+
+      {/* Mobile Bottom Navigation */}
+      <nav className="fixed bottom-0 left-0 right-0 z-40 border-t border-border bg-card/95 backdrop-blur-sm lg:hidden">
+        <div className="grid h-16 grid-cols-5 items-center justify-items-center gap-px">
+          {links.map((link) => {
+            const Icon = link.icon;
+            const active = pathname === link.to;
+
+            return (
+              <Link
+                key={link.to}
+                to={link.to}
+                className={cn(
+                  "flex h-full w-full flex-col items-center justify-center gap-1 transition-colors",
+                  active ? "text-silver" : "text-muted-foreground hover:text-foreground",
+                )}
+              >
+                <Icon className="h-5 w-5" />
+                <span className="text-xs font-medium leading-none truncate">{link.label}</span>
+              </Link>
+            );
+          })}
+        </div>
+      </nav>
     </div>
   );
 }
